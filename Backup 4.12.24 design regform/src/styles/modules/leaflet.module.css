@@ -1,0 +1,13 @@
+/* 
+ * LEAFLET-SPESIFIKKE STILER
+ * Importeres etter Tailwind for å kunne overstyre Leaflet's standard stiler
+ */
+
+ @import 'leaflet/dist/leaflet.css';
+
+ /* Bruk @layer for å unngå spesifisitetsproblemer */
+ @layer components {
+   .leaflet-container {
+     @apply w-full h-full z-leaflet;
+   }
+ }

@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply m-0 font-sans antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  button, input, select, textarea {
+    @apply text-base; /* 16px */
+  }
+}
+
+@layer components {
+  .location-details-container {
+    @apply w-full max-w-2xl mx-auto p-5;
+  }
+
+  .location-details-header {
+    @apply flex items-center mb-5;
+  }
+
+  .back-arrow {
+    @apply cursor-pointer mr-2.5;
+  }
+
+  .registrations-table {
+    @apply w-full border-collapse mt-5;
+  }
+
+  .registrations-table th,
+  .registrations-table td {
+    @apply p-2.5 text-left border-b border-gray-200;
+  }
+
+  .registrations-table thead tr {
+    @apply bg-gray-100;
+  }
+
+  .latin-name {
+    @apply italic;
+  }
+}
+
+/* Mobile optimizations */
+@media screen and (max-width: 768px) {
+  .location-details-container {
+    @apply p-2.5;
+  }
+  
+  .registrations-table th,
+  .registrations-table td {
+    @apply p-2 text-sm;
+  }
+}

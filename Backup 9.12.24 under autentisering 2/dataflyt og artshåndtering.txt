@@ -1,0 +1,20 @@
+Ja, her er den viktige informasjonen om dataflyt og artshåndtering:
+
+1. Artsdata-struktur:
+- Arter lagres i IndexedDB med felter som `categoryNorway` og `categorySvalbard`
+- Ved lagring av art brukes format: `speciesData = { id: id, commonNameNorwegian: species.VernacularNameBokmaal, scientificName: ${species.Genus} ${species.Species}, categoryNorway: species.CategoryNorway, categorySvalbard: species.CategorySvalbard, ...species }`
+
+2. Registreringsprosess:
+- I SpeciesInput.js velges art fra søkeresultater
+- Ved valg av art må vi lagre hele artsobjektet eller minimum kategorifeltene: `categoryNorway` og `categorySvalbard`
+- Viktig at disse feltene følger med når registreringen lagres i RegisterForm.js
+
+3. Kategoribestemmelse:
+- Kategorien bestemmes basert på geografisk posisjon (Svalbard vs. Norge)
+- For Ask (Fraxinus excelsior) er det spesialhåndtering som setter EN-kategori
+- Default til LC hvis ingen kategori finnes
+
+Dette hjelper for fremtidige endringer siden vi nå vet at:
+- Kategorier må hentes fra artsdatabasen når arten velges
+- Kategorifeltene må inkluderes i registreringsobjektet
+- Geografisk posisjon påvirker hvilken kategori som skal brukes

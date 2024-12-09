@@ -1,0 +1,26 @@
+/* 
+ * HOVEDSTILARK
+ * Dette må importeres før andre CSS-filer i index.js
+ */
+
+ @tailwind base;    /* Reset og base stiler */
+ @tailwind components;    /* Komponentstiler */
+ @tailwind utilities;    /* Utility klasser */
+ 
+ /* Custom stiler legges i egne @layer for å unngå konflikter */
+ @layer base {
+   body {
+     @apply m-0 font-sans antialiased;
+   }
+ }
+ 
+ /* Modulspesifikke stiler kan importeres her */
+
+ @keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}

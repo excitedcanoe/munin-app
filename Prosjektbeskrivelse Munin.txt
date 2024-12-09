@@ -1,0 +1,100 @@
+# Munin - Artsregistreringsapp
+
+## 🤖 AI Samarbeidsinstruksjoner
+
+### Kommunikasjon med AI
+- Jeg bruker AI for all koding og implementering
+- Jeg kan grunnleggende feilsøking (missing components, syntax errors)
+- Jeg foretrekker tydelig markering av hva som skal endres vs. beholdes i koden
+- Ved større endringer, vis før/etter eller marker tydelig hva som skal fjernes/legges til
+
+### Kodeformatering
+Når deler av en fil skal endres, vis kontekst slik:
+```javascript
+// SpeciesPopup forblir uendret...
+const SpeciesPopup = ({ /* ... */ }) => { /* ... */ };
+
+// ExportButton forblir uendret...
+const ExportButton = ({ /* ... */ }) => { /* ... */ };
+
+// Dette er den nye koden som skal implementeres
+const UpdatedComponent = ({ prop1, prop2 }) => {
+  // Ny implementasjon her
+};
+```
+
+## 🛠 Teknisk Oppsett
+
+### Styling
+- Primært Tailwind CSS for styling
+- Unntak:
+  - Leaflet-relaterte komponenter (MapComponent etc.) beholder inline styles
+  - Dynamiske styles (posisjonsbasert, fargeberegning etc.)
+  - SVG-manipulasjon
+- Square bracket notation brukes for spesielle CSS-egenskaper
+- Styling konfigurasjon:
+  ```
+  /
+  ├── postcss.config.js
+  ├── tailwind.config.js
+  └── src/
+      └── styles/
+          ├── global.css   # Globale Tailwind imports
+          └── modules/     # Modul-spesifikke styles
+              └── leaflet.module.css
+  ```
+
+### React Setup
+- Moderne React med function components og hooks
+- Komponentstruktur:
+  ```
+  /src
+  ├── components/
+  │   ├── AppInterface/    # Hovedcontainer og layout
+  │   ├── auth/           # Autentisering og bruker
+  │   ├── forms/          # Registreringsskjemaer
+  │   ├── map/           # Kartrelaterte komponenter
+  │   ├── overlays/      # Modal og popup komponenter
+  │   └── InstallPrompt/  # PWA-installasjon
+  ```
+
+### State Management
+- Custom hooks for global state (useAppState)
+- Context for delt state mellom komponenter
+- IndexedDB for lokal datalagring
+- Optimalisert rendering med useMemo og useCallback
+- Eventbasert kommunikasjon for kritiske oppdateringer
+
+### Dataflyt
+- Lokal lagring i IndexedDB
+- Synkronisering med skylagring
+- Offline-first arkitektur
+- Brukerautentisering med MongoDB
+- Effektiv bildehåndtering med komprimering
+
+## 📱 Hovedkomponenter
+
+### Kartvisning
+- Leaflet-basert med custom kontroller
+- Clustering for effektiv markørhåndtering
+- Buffer-visualisering for nøyaktighet
+- Interaktive popups med artsinfo
+
+### Registrering
+- Progressiv utfylling
+- GPS og manuell posisjonering
+- Bildehåndtering med forhåndsvisning
+- Offline støtte
+
+### Oversikt og Administrasjon
+- Hierarkisk visning (lokalitet > registreringer)
+- Batch-operasjoner (sletting, eksport)
+- Avansert filtrering og sortering
+- Excel-eksport funksjonalitet
+
+## 📌 Viktige Tekniske Notater
+- JSX-dokumentasjon kreves for alle komponenter
+- Konsistent styling-strategi med Tailwind
+- Tydelig error handling og logging
+- Optimalisert for mobil ytelse
+- PWA-funksjonalitet med offline støtte

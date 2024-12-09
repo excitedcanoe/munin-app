@@ -1,0 +1,327 @@
+# Munin - Species Registration Progressive Web App
+
+Når Claude samarbeider med meg - Vær tydelig på hva som skal: 
+		○ LEGGES TIL (ny kode)
+		○ ERSTATTES (gammel kode → ny kode)
+		○ FJERNES (kode som skal bort)
+		○ FLYTTES (kode som skal til et annet sted)
+
+## Technical Architecture
+
+### Core Technologies
+- React 18+ (Function Components, Hooks)
+- IndexedDB via idb for local storage
+- Service Workers for offline functionality
+- Tailwind CSS for styling
+- Leaflet for map integration
+- PWA capabilities with full offline support
+
+### State Management
+```typescript
+interface AppState {
+  user: User | null;
+  registrations: Registration[];
+  selectedLocation: Location | null;
+  mapCenter: [number, number];
+  isSelectingLocation: boolean;
+  formData: RegistrationFormData;
+  currentVersion: string;
+  isInitialLoadComplete: boolean;
+}
+```
+
+### Data Models
+```typescript
+interface Registration {
+  id: string;
+  species: string;
+  coordinates: [number, number];
+  timestamp: number;
+  images: ImageData[];
+  metadata: RegistrationMetadata;
+  userId: string;
+  syncStatus: 'pending' | 'synced' | 'error';
+}
+
+interface Location {
+  name: string;
+  coordinates: [number, number];
+  accuracy: number;
+  timestamp: number;
+}
+```
+
+## Component Architecture
+
+### Key Components
+1. AppInterface
+   - Orchestrates main app layout
+   - Manages map-UI interaction
+   - Controls overlay visibility
+   - Z-index management for layers
+
+2. Registration System
+   - Progressive form with dynamic field validation
+   - Image compression and processing
+   - Geolocation integration
+   - Offline data persistence
+
+3. Map Integration
+   - Custom Leaflet controls
+   - Polygon drawing capabilities
+   - Cluster management for dense data
+   - Offline tile management
+
+### State Management Patterns
+```javascript
+// Global state hook pattern
+const useAppState = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const actions = useMemo(() => bindActions(dispatch), [dispatch]);
+  
+  useEffect(() => {
+    // Sync with IndexedDB
+    // Handle service worker updates
+    // Manage authentication state
+  }, []);
+  
+  return { state, actions };
+};
+```
+
+## Data Flow Architecture
+
+### Local Storage Strategy
+- IndexedDB for primary data storage
+- Service Worker cache for assets and API responses
+- Local state sync with background updates
+
+### Sync Protocol
+1. Optimistic local updates
+2. Background sync queue
+3. Conflict resolution strategy
+4. Retry mechanism for failed syncs
+
+## Styling Architecture
+
+### Tailwind Configuration
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      zIndex: {
+        'leaflet': '0',
+        'controls': '400',
+        'modal': '1000',
+        'overlay': '999',
+      },
+      // Custom color scheme
+      colors: {
+        primary: {
+          DEFAULT: '#3B82F6',
+          hover: '#2563EB',
+          dark: '#1D4ED8',
+        },
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+### CSS Module Structure
+```
+styles/
+├── global.css          # Tailwind directives, global styles
+├── components/         # Component-specific styles
+└── modules/
+    └── leaflet.module.css  # Map-specific overrides
+```
+
+## Progressive Enhancement Strategy
+
+### Form Progression
+1. Basic data entry
+2. Species validation
+3. Location refinement
+4. Media attachment
+5. Additional metadata
+
+### Offline Capabilities
+- Full CRUD operations offline
+- Image processing and storage
+- Map tile caching
+- Background sync
+
+## Future Implementation Priorities
+
+### Phase 1: Core Enhancement
+- [ ] Progressive form implementation
+- [ ] Cross-device sync
+- [ ] Enhanced offline support
+- [ ] UI/UX optimizations
+
+### Phase 2: Advanced Features
+- [ ] AI species recognition
+- [ ] Audio recording/analysis
+- [ ] Area measurement tools
+- [ ] Advanced filtering
+
+### Phase 3: International Expansion
+- [ ] Multi-language support
+- [ ] Global species database integration
+- [ ] Region-specific customizations
+- [ ] Data export compliance
+
+## Technical Requirements
+
+### Performance Metrics
+- First Contentful Paint < 1.5s
+- Time to Interactive < 3s
+- Offline functionality < 100ms
+- Image processing < 2s
+
+### Browser Support
+- Modern evergreen browsers
+- iOS Safari 14+
+- Chrome for Android 88+
+- PWA installation support
+
+### API Integration
+- RESTful endpoints with JWT authentication
+- WebSocket for real-time updates
+- Batch processing for sync operations
+- Rate limiting and throttling
+
+## Development Patterns
+
+### Component Creation
+```javascript
+const ComponentName = ({
+  required1,
+  required2,
+  optional = defaultValue,
+}) => {
+  // State management
+  const { state, actions } = useAppState();
+  
+  // Effects and callbacks
+  useEffect(() => {
+    // Side effects
+  }, [dependencies]);
+  
+  // Event handlers
+  const handleEvent = useCallback(() => {
+    // Event logic
+  }, [dependencies]);
+  
+  // Render
+  return (
+    <div className="tailwind-classes">
+      {/* Component JSX */}
+    </div>
+  );
+};
+```
+
+### Testing Strategy
+- Jest for unit tests
+- React Testing Library for component tests
+- Cypress for E2E testing
+- Lighthouse for performance metrics
+
+## Security Considerations
+- OWASP compliance
+- Data encryption at rest
+- Secure image handling
+- Geolocation privacy
+- User data protection
+
+### Device Detection & Responsive Design
+
+```javascript
+// Device breakpoints
+const BREAKPOINTS = {
+  PHONE: 768,    // Mobile devices
+  TABLET: 1024,  // Tablets/small laptops
+  DESKTOP: 1280  // Large screens/monitors
+};
+
+// Custom hook pattern for device detection
+const useDevice = () => {
+  const [deviceType, setDeviceType] = useState('desktop');
+  
+  // Device states and helpers
+  return {
+    deviceType,      // 'phone' | 'tablet' | 'desktop'
+    isPhone,         // Memoized boolean
+    isTablet,        // Memoized boolean
+    isDesktop,       // Memoized boolean
+    isMobile,        // Phone or tablet
+    windowWidth,     // Current window width
+    isBreakpoint,    // Helper functions for breakpoint checks
+    breakpoints      // Reference to BREAKPOINTS
+  };
+};
+
+// Usage pattern in components
+const ComponentName = () => {
+  const { deviceType, isPhone, isBreakpoint } = useDevice();
+  
+  // Device-specific rendering
+  return deviceType === 'phone' 
+    ? <MobileLayout />
+    : <DesktopLayout />;
+};
+```
+
+### Responsive Design Strategy
+- Mobile-first approach with progressive enhancement
+- Device-specific component variations
+- Tailwind breakpoint alignment with device detection
+- Consistent breakpoints across entire application
+- Performance optimization per device type
+
+### Component Patterns
+```javascript
+// Component with device-aware rendering
+const ResponsiveComponent = () => {
+  const { deviceType, isBreakpoint } = useDevice();
+  
+  // Conditional logic based on device
+  const getLayout = () => {
+    switch (deviceType) {
+      case 'phone':
+        return <PhoneLayout />;
+      case 'tablet':
+        return <TabletLayout />;
+      default:
+        return <DesktopLayout />;
+    }
+  };
+  
+  // Device-specific features
+  const componentProps = {
+    phone: { /* phone specific props */ },
+    tablet: { /* tablet specific props */ },
+    desktop: { /* desktop specific props */ }
+  }[deviceType];
+  
+  return <div {...componentProps}>{getLayout()}</div>;
+};
+```
+
+### Integration with Existing Architecture
+- Added to global state management
+- Synced with Tailwind breakpoints
+- Consistent across routing changes
+- Persisted device preferences
+- Performance monitoring per device type
+
+### Testing Requirements
+- Device-specific test suites
+- Breakpoint simulation in tests
+- Visual regression testing per device
+- Performance benchmarks per device type

@@ -1,0 +1,28 @@
+lage ny versjon
+- npm install react-app-rewired
+- Hvis det begynner å bli for mange versjoner og det blir upraktisk med alle disse lokale installasjonene, kan du vurdere et verktøy som nvm for å håndtere forskjellige versjoner av Node.js og globale pakker, men det er ikke nødvendig med én gang.
+
+Kjøre build til telefon lokalt
+- Lagre alle filer først
+- Når du kjører npm run build, vil den automatisk overskrive den eksisterende build-mappen med den nye versjonen av appen din.
+- Hvis du bruker Netlify eller en lignende tjeneste, kan du laste opp den nye build-mappen direkte til tjenesten for å oppdatere appen din. 
+
+
+pre req:
+- npx create-react-app min-app
+- cd "fila du vil til"
+- cd..
+- npm install lucide-react @/components/ui/button
+- npm install react-leaflet leaflet
+- npm install idb
+- npm install proj4
+- npm start
+- npm install react-leaflet-cluster
+- npm install -D tailwindcss postcss autoprefixer
+- npx tailwindcss init -p
+
+Prosjektstruktur: En oppdatert oversikt over mappestrukturen og filene i prosjektet. Du kan bruke kommandoen tree i terminalen (på Unix-baserte systemer) eller ta et skjermbilde av filstrukturen i din IDE.
+
+
+
+
